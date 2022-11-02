@@ -123,9 +123,9 @@ def plot_patients():
                 dict(
                     {
                         'Patients': [item['No']],
-                        '1-Year': ["{:.2f}%".format(item['1-year'] * 100)],
                         '3-Year': ["{:.2f}%".format(item['3-year'] * 100)],
-                        '5-Year': ["{:.2f}%".format(item['5-year'] * 100)]
+                        '5-Year': ["{:.2f}%".format(item['5-year'] * 100)],
+                        '10-Year': ["{:.2f}%".format(item['10-year'] * 100)]
                     },
                     **item['arg']
                 )
@@ -151,9 +151,9 @@ def predict():
         'times': [i for i in range(0, len(survival.flatten()))],
         'No': len(st.session_state['patients']) + 1,
         'arg': {key:st.session_state[key] for key in input_keys},
-        '1-year': survival[0, 12],
         '3-year': survival[0, 36],
-        '5-year': survival[0, 60]
+        '5-year': survival[0, 60],
+        '10-year': survival[0, 120]
     }
     st.session_state['patients'].append(
         data
@@ -181,18 +181,18 @@ def plot_below_header():
         plot_survival()
     with col4:
         st.metric(
-            label='1-Year survival probability',
-            value="{:.2f}%".format(st.session_state['patients'][-1]['1-year'] * 100)
-        )
-    with col5:
-        st.metric(
             label='3-Year survival probability',
             value="{:.2f}%".format(st.session_state['patients'][-1]['3-year'] * 100)
         )
-    with col6:
+    with col5:
         st.metric(
             label='5-Year survival probability',
             value="{:.2f}%".format(st.session_state['patients'][-1]['5-year'] * 100)
+        )
+    with col6:
+        st.metric(
+            label='10-Year survival probability',
+            value="{:.2f}%".format(st.session_state['patients'][-1]['10-year'] * 100)
         )
     st.write('')
     st.write('')
